@@ -1,0 +1,36 @@
+{
+  "name": "visual-healer",
+  "version": "1.0.2",
+  "type": "module",
+  "main": "index.js",
+  "bin": {
+    "visual-healer": "./src/cli.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "analyze": "node src/cli.js analyze"
+  },
+  "keywords": [
+    "visual-testing",
+    "visual-regression",
+    "ci",
+    "auto-heal",
+    "selector-healing",
+    "layout-shift",
+    "test-report",
+    "puppeteer",
+    "pixelmatch"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "description": "Visual Test Auto-Healer: detect layout shifts, auto-suggest fixed selectors, generate reports, and fail builds in CI.",
+  "dependencies": {
+    "chalk": "^5.4.1",
+    "commander": "^14.0.0",
+    "fs-extra": "^11.3.0",
+    "pixelmatch": "^7.1.0",
+    "pngjs": "^7.0.0",
+    "puppeteer": "^24.15.0",
+    "xmlbuilder2": "^3.1.1"
+  }
+}

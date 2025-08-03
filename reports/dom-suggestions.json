@@ -1,0 +1,27 @@
+[
+  {
+    "type": "auto_heal_suggestion",
+    "message": "Element 'More information...' (A) likely changed selector:",
+    "oldSelector": "a",
+    "suggestedSelector": "a",
+    "confidenceScore": 40,
+    "testSnippets": {
+      "cypress": "cy.get('a')",
+      "playwright": "await page.locator('a')",
+      "jsdom": "document.querySelector('a')"
+    },
+    "new": {
+      "tag": "A",
+      "text": "More information...",
+      "attributes": {},
+      "boundingBox": {
+        "x": 383,
+        "y": 255.875,
+        "width": 134.984375,
+        "height": 21
+      }
+    },
+    "isValidSuggestion": true,
+    "screenshotPath": "elements/element-1.png"
+  }
+]

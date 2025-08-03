@@ -1,0 +1,15 @@
+stages:
+  - test
+
+visual-healer:
+  stage: test
+  image: node:18
+  script:
+    - npm ci
+    - npx visual-healer analyze https://example.com --ci --fail-on healing
+  artifacts:
+    when: always
+    paths:
+      - reports/junit-report.xml
+    reports:
+      junit: reports/junit-report.xml

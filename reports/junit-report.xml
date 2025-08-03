@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<testsuites>
+  <testsuite name="Visual Test Auto-Healer" tests="1" failures="1">
+    <testcase name="auto_heal_suggestion - Element 'More information...' (A) likely changed selector:" classname="visual-healer">
+      <failure>Element 'More information...' (A) likely changed selector:</failure>
+    </testcase>
+  </testsuite>
+</testsuites>

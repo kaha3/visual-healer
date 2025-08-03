@@ -1,0 +1,12 @@
+[
+  {
+    "tag": "A",
+    "text": "More information...",
+    "attributes": {
+      "id": "moreInfo"
+    },
+    "boundingBox": {
+      "x": 100, "y": 300, "width": 150, "height": 20
+    }
+  }
+]
