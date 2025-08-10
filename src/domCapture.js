@@ -6,13 +6,26 @@ import fs from 'fs-extra';
  */
 export async function captureDOMMetadata(url, outputPath) {
   console.log(`🧠 Capturing DOM metadata from: ${url}`);
-  const browser = await puppeteer.launch();
+
+  // CI-safe launch args (only applied in CI)
+  const args = ['--disable-dev-shm-usage', '--disable-gpu'];
+  if (process.env.CI) {
+    args.push('--no-sandbox', '--disable-setuid-sandbox');
+  }
+
+  const browser = await puppeteer.launch({
+    headless: 'new',
+    args,
+  });
+
   const page = await browser.newPage();
   await page.setViewport({ width: 1366, height: 768 });
   await page.goto(url, { waitUntil: 'networkidle2' });
 
   const domData = await page.evaluate(() => {
-    const elements = Array.from(document.querySelectorAll('a, button, input, select, textarea, [data-testid], [role]'));
+    const elements = Array.from(
+      document.querySelectorAll('a, button, input, select, textarea, [data-testid], [role]')
+    );
 
     return elements.map(el => {
       const rect = el.getBoundingClientRect();
