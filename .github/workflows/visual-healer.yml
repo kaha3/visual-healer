@@ -14,8 +14,9 @@ jobs:
       - run: npm ci
       - name: Run Visual Healer
         run: |
-          npx visual-healer analyze --ci --fail-on healing
+          npx visual-healer analyze https://example.com --ci --fail-on healing
       - name: Upload report
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: visual-healer-report
