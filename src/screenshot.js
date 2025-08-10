@@ -1,6 +1,7 @@
 import puppeteer from 'puppeteer';
 import fs from 'fs-extra';
 import path from 'path';
+import { launchBrowser } from './puppeteerLaunch.js';
 
 export async function captureScreenshot(url, outputPath) {
   console.log(`📸 Capturing screenshot of: ${url}`);
@@ -11,10 +12,7 @@ export async function captureScreenshot(url, outputPath) {
     args.push('--no-sandbox', '--disable-setuid-sandbox');
   }
 
-  const browser = await puppeteer.launch({
-    headless: 'new',   // works well with Puppeteer 24+
-    args,
-  });
+  const browser = await launchBrowser();
 
   const page = await browser.newPage();
   await page.setViewport({ width: 1366, height: 768 });

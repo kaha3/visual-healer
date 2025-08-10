@@ -1,5 +1,6 @@
 import puppeteer from 'puppeteer';
 import fs from 'fs-extra';
+import { launchBrowser } from './puppeteerLaunch.js';
 
 /**
  * Extracts clickable/input elements and saves their bounding boxes and attributes.
@@ -13,10 +14,7 @@ export async function captureDOMMetadata(url, outputPath) {
     args.push('--no-sandbox', '--disable-setuid-sandbox');
   }
 
-  const browser = await puppeteer.launch({
-    headless: 'new',
-    args,
-  });
+  const browser = await launchBrowser();
 
   const page = await browser.newPage();
   await page.setViewport({ width: 1366, height: 768 });

@@ -1,11 +1,13 @@
 import fs from 'fs-extra';
 import puppeteer from 'puppeteer';
+import { launchBrowser } from './puppeteerLaunch.js';
+
 
 /**
  * Crops a screenshot of the element at given bounding box from a live URL.
  */
 export async function cropElementScreenshot(url, boundingBox, index, outputDir) {
-  const browser = await puppeteer.launch();
+  const browser = await launchBrowser();
   const page = await browser.newPage();
   await page.setViewport({ width: 1366, height: 768 });
   await page.goto(url, { waitUntil: 'networkidle2' });
