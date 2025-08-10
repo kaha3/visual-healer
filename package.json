@@ -1,11 +1,11 @@
 {
   "name": "visual-healer",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "type": "module",
   "description": "Self-healing visual regression & selector suggestions for web UI tests.",
   "main": "src/index.js",
   "bin": {
-    "visual-healer": "./src/cli.js"
+    "visual-healer": "src/cli.js"
   },
   "files": [
     "src/**/*",
@@ -54,4 +54,3 @@
     "xmlbuilder2": "^3.1.1"
   }
 }
-
