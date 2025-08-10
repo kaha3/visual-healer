@@ -1,6 +1,6 @@
 {
   "name": "visual-healer",
-  "version": "0.2.0",
+  "version": "1.0.4",
   "type": "module",
   "description": "Self-healing visual regression & selector suggestions for web UI tests.",
   "main": "src/index.js",
