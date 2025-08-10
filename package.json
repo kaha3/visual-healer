@@ -1,29 +1,49 @@
 {
   "name": "visual-healer",
-  "version": "1.0.2",
+  "version": "0.2.0",
   "type": "module",
-  "main": "index.js",
+  "description": "Self-healing visual regression & selector suggestions for web UI tests.",
+  "main": "src/index.js",
   "bin": {
     "visual-healer": "./src/cli.js"
   },
+  "files": [
+    "src/**/*",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "analyze": "node src/cli.js analyze"
+    "build": "node -e \"console.log('No build step')\"",
+    "lint": "eslint . || true",
+    "test": "node -e \"console.log('Add tests soon')\"",
+    "analyze": "node src/cli.js analyze",
+    "example": "node examples/run-example.js"
   },
   "keywords": [
     "visual-testing",
     "visual-regression",
-    "ci",
     "auto-heal",
     "selector-healing",
     "layout-shift",
     "test-report",
     "puppeteer",
-    "pixelmatch"
+    "pixelmatch",
+    "ci",
+    "report"
   ],
-  "author": "Your Name",
+  "author": "Kakhaber Kitiashvili",
+  "homepage": "https://github.com/kaha3/visual-healer",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kaha3/visual-healer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kaha3/visual-healer/issues"
+  },
   "license": "MIT",
-  "description": "Visual Test Auto-Healer: detect layout shifts, auto-suggest fixed selectors, generate reports, and fail builds in CI.",
+  "engines": {
+    "node": ">=18"
+  },
   "dependencies": {
     "chalk": "^5.4.1",
     "commander": "^14.0.0",
@@ -34,3 +54,4 @@
     "xmlbuilder2": "^3.1.1"
   }
 }
+
