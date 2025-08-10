@@ -14,23 +14,33 @@
 * ✅ Compare DOM elements and bounding boxes
 * ✅ Auto-suggest updated selectors using smart heuristics
 * ✅ Generate:
-
   * 📄 Markdown report
   * 🌐 HTML report
   * 🧪 JUnit XML report (CI-ready)
 * ✅ Support for `--ci` mode to fail builds on detection
 * ✅ Custom `--fail-on` filters (`healing`, `layout-shift`, `invalid-selector`)
+* ✅ CI-safe Puppeteer launch to avoid sandbox errors
 * ✅ Easy integration with GitHub Actions, GitLab CI, Jenkins
+
+---
+
+## 📢 What's New in v1.0.4
+
+- **CI-safe Puppeteer launch** to prevent “No usable sandbox!” errors in CI environments.
+- Updated **GitHub Actions workflow**:
+  - **Gating step**: fails the build only for layout shifts.
+  - **Non-blocking healing step**: runs auto-healing analysis without blocking merges.
+- More reliable selector validation in CI environments.
 
 ---
 
 ## 📦 Installation
 
+Run directly with `npx`:
+
 ```bash
 npx visual-healer analyze https://example.com
 ```
-
-> No install required. Just run it with `npx`.
 
 Or install globally:
 
@@ -40,39 +50,21 @@ npm install -g visual-healer
 
 ---
 
-## Quick Start with Examples
-
-```bash
-# Install dependencies
-npm install
-
-# Run the example
-node examples/run-example.js
-```
-
-This will:
-
-* Compare screenshots from `examples/baseline` and `examples/actual`
-* Generate a full HTML, Markdown, and JUnit report in `/reports`
-* Show healing suggestions and visual diffs
-
----
-
 ## 🧪 Usage
 
-### Basic command:
+### Basic command
 
 ```bash
 npx visual-healer analyze https://example.com
 ```
 
-### With CI mode:
+### With CI mode
 
 ```bash
 npx visual-healer analyze https://example.com --ci
 ```
 
-### Fail CI only on specific issue type:
+### Fail CI only on specific issue type
 
 ```bash
 # Fail only if auto-healing triggered
@@ -89,7 +81,7 @@ npx visual-healer analyze https://example.com --ci --fail-on invalid-selector
 
 ## 📂 Output
 
-After running, it will generate:
+After running, the tool generates:
 
 ```
 /reports
@@ -102,23 +94,21 @@ After running, it will generate:
 
 ---
 
-## 🔁 GitLab CI Example
+## 💻 Local Example
 
-`.gitlab-ci.yml`:
+```bash
+# Install dependencies
+npm install
 
-```yaml
-visual-healer:
-  image: node:18
-  script:
-    - npm ci
-    - npx visual-healer analyze https://example.com --ci --fail-on healing
-  artifacts:
-    when: always
-    paths:
-      - reports/junit-report.xml
-    reports:
-      junit: reports/junit-report.xml
+# Run the example
+node examples/run-example.js
 ```
+
+This will:
+* Capture screenshot & DOM metadata from a sample URL
+* Compare against a baseline (if available)
+* Generate HTML, Markdown, and JUnit reports in `/reports`
+* Show healing suggestions and visual diffs
 
 ---
 
@@ -141,14 +131,44 @@ jobs:
         with:
           node-version: 20
       - run: npm ci
-      - name: Run Visual Healer
+
+      # Gatekeeper: only fail PRs on layout shifts
+      - name: Check for layout shifts (gating)
         run: |
-          npx visual-healer analyze --ci --fail-on healing
+          npx visual-healer analyze https://example.com --ci --fail-on layout-shift
+
+      # Also run healing, but do not fail the job; still upload artifacts
+      - name: Run healing analysis (non-blocking)
+        continue-on-error: true
+        run: |
+          npx visual-healer analyze https://example.com --ci --fail-on healing
+
       - name: Upload report
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: visual-healer-report
           path: reports
+```
+
+---
+
+## 🔁 GitLab CI Example
+
+`.gitlab-ci.yml`:
+
+```yaml
+visual-healer:
+  image: node:20
+  script:
+    - npm ci
+    - npx visual-healer analyze https://example.com --ci --fail-on healing
+  artifacts:
+    when: always
+    paths:
+      - reports/junit-report.xml
+    reports:
+      junit: reports/junit-report.xml
 ```
 
 ---
@@ -167,8 +187,8 @@ jobs:
 
 ## 🧑‍💻 Author
 
-Made by Kakha Kitiashvili
-[https://github.com/kaha3/visual-healer](https://github.com/kaha3/visual-healer)
+Made by **Kakha Kitiashvili**  
+[GitHub Repo](https://github.com/kaha3/visual-healer)
 
 ---
 
