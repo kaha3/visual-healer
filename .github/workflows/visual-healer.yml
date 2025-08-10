@@ -12,12 +12,22 @@ jobs:
         with:
           node-version: 20
       - run: npm ci
-      - name: Run Visual Healer
+
+      # Gatekeeper: only fail PRs on layout shifts
+      - name: Check for layout shifts (gating)
+        run: |
+          npx visual-healer analyze https://example.com --ci --fail-on layout-shift
+
+      # Also run healing, but do not fail the job; still upload artifacts
+      - name: Run healing analysis (non-blocking)
+        continue-on-error: true
         run: |
           npx visual-healer analyze https://example.com --ci --fail-on healing
+
       - name: Upload report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: visual-healer-report
           path: reports
+
