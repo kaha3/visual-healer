@@ -1,18 +1,29 @@
 import puppeteer from 'puppeteer';
 import fs from 'fs-extra';
+import { launchBrowser } from './puppeteerLaunch.js';
 
 /**
  * Extracts clickable/input elements and saves their bounding boxes and attributes.
  */
 export async function captureDOMMetadata(url, outputPath) {
   console.log(`🧠 Capturing DOM metadata from: ${url}`);
-  const browser = await puppeteer.launch();
+
+  // CI-safe launch args (only applied in CI)
+  const args = ['--disable-dev-shm-usage', '--disable-gpu'];
+  if (process.env.CI) {
+    args.push('--no-sandbox', '--disable-setuid-sandbox');
+  }
+
+  const browser = await launchBrowser();
+
   const page = await browser.newPage();
   await page.setViewport({ width: 1366, height: 768 });
   await page.goto(url, { waitUntil: 'networkidle2' });
 
   const domData = await page.evaluate(() => {
-    const elements = Array.from(document.querySelectorAll('a, button, input, select, textarea, [data-testid], [role]'));
+    const elements = Array.from(
+      document.querySelectorAll('a, button, input, select, textarea, [data-testid], [role]')
+    );
 
     return elements.map(el => {
       const rect = el.getBoundingClientRect();

@@ -1,0 +1,17 @@
+{
+  "baselineDir": "./examples/baseline",
+  "actualDir": "./examples/actual",
+  "outputDir": "./reports",
+  "threshold": 0.1,
+  "maxMismatchPct": 0.5,
+  "failOn": ["healing", "layout-shift", "invalid-selector"],
+  "ignoreSelectors": [".ad-banner", ".cookie-consent"],
+  "selectorHeuristics": {
+    "id": 1.0,
+    "dataAttr": 0.9,
+    "role": 0.8,
+    "text": 0.6,
+    "class": 0.5,
+    "tag": 0.3
+  }
+}
